@@ -59,6 +59,47 @@ Supports Windows (x64/x86), Linux (x64/arm64) and macOS 11+ (intel/apple).
 
 ---
 
+## 🌐 ClashFlow 浏览器扩展
+
+内置轻量级浏览器扩展 **ClashFlow**，在浏览器内直接管理 Clash 代理规则，无需切换到主程序。
+
+### 功能列表
+
+- **概览面板** — 当前代理节点 / 延迟显示、实时流量曲线、连接数、内存、IP 地理位置信息（通过 Clash 代理端口获取，保证显示出口 IP）、系统状态（运行模式 / 自启 / 版本）
+- **站点规则管理** — 自动识别当前页面域名，显示是否已被规则覆盖；一键将当前站点（或问题域名）添加为 `DOMAIN` / `DOMAIN-SUFFIX` 规则到任意代理组
+- **规则编辑** — 可视化管理所有 Clash 规则，支持新增 / 删除 / 排序
+- **代理面板** — 切换代理组 / 节点，自动测延迟并以 `ms` 显示，节点颜色区分健康度
+- **连接日志** — 实时显示当前活跃连接，可一键关闭
+- **订阅管理** — 查看 / 切换配置文件、手动触发订阅更新
+- **跨会话记忆** — 记住上次打开时停留的页面
+- **智能过滤** — 已匹配规则的域名和广告拦截器（`ERR_BLOCKED_BY_CLIENT`）拦截的请求自动隐藏，问题列表只展示真正需要关注的域名；超过 1.5s 的慢请求会高亮显示
+
+### 工作原理
+
+扩展通过本地 HTTP Bridge（端口 `33331`，即 Clash Verge 的内嵌服务器）与主程序通信，所有 IP 信息 / 系统状态请求都经由 Clash 代理端口发出，因此 IP 显示的就是当前代理出口地址。规则添加通过 Bridge 注入到当前激活配置文件的 rules 增强文件，热重载无需重启内核。
+
+### 截图
+
+<p align="center">
+  <img src="./extension/p/1.png" alt="Dashboard" width="45%" style="margin: 4px;" />
+  <img src="./extension/p/2.png" alt="Site Rules" width="45%" style="margin: 4px;" />
+  <img src="./extension/p/3.png" alt="Rule Manager" width="45%" style="margin: 4px;" />
+  <img src="./extension/p/4.png" alt="Proxy Panel" width="45%" style="margin: 4px;" />
+  <img src="./extension/p/5.png" alt="Connections" width="45%" style="margin: 4px;" />
+  <img src="./extension/p/6.png" alt="Profiles" width="45%" style="margin: 4px;" />
+</p>
+
+### 安装使用
+
+1. 从 [Releases](https://github.com/clash-verge-rev/clash-verge-rev/releases) 下载 `clashflow-extension.zip` 并解压
+2. 打开 Chrome → `chrome://extensions` → 开启「开发者模式」
+3. 点击「加载已解压的扩展程序」→ 选择解压后的文件夹
+4. 确保 Clash Verge Rev 主程序正在运行（Bridge 端口 33331 可用）
+
+> 扩展位于源码的 [`extension/`](./extension) 目录，可通过 `cd extension && pnpm install && pnpm build` 自行构建。
+
+---
+
 ## Features
 
 - 基于性能强劲的 Rust 和 Tauri 2 框架
@@ -68,6 +109,7 @@ Supports Windows (x64/x86), Linux (x64/arm64) and macOS 11+ (intel/apple).
 - 系统代理和守卫、`TUN(虚拟网卡)` 模式。
 - 可视化节点和规则编辑
 - WebDav 配置备份和同步
+- **🌐 内置 ClashFlow 浏览器扩展** — 在 Chrome 内管理代理规则、查看流量和 IP 信息
 
 ### FAQ
 
